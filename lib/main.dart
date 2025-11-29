@@ -18,11 +18,18 @@ import 'screens/profile_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Initialize Supabase
-  await Supabase.initialize(
-    url: SupabaseConfig.supabaseUrl,
-    anonKey: SupabaseConfig.supabaseAnonKey,
-  );
+  // Initialize Supabase only if credentials are provided
+  if (SupabaseConfig.supabaseUrl != 'YOUR_SUPABASE_URL' &&
+      SupabaseConfig.supabaseAnonKey != 'YOUR_SUPABASE_ANON_KEY') {
+    try {
+      await Supabase.initialize(
+        url: SupabaseConfig.supabaseUrl,
+        anonKey: SupabaseConfig.supabaseAnonKey,
+      );
+    } catch (e) {
+      print('Supabase initialization failed: $e');
+    }
+  }
   
   runApp(const MyApp());
 }
